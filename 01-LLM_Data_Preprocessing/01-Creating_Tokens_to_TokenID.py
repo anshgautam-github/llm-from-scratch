@@ -25,3 +25,17 @@ preprocessed = re.split(r'([,.:;?_!"()\']|--|\s)', raw_text)
 preprocessed = [item.strip() for item in preprocessed if item.strip()]
 print(preprocessed[:30])
 print(len(preprocessed))
+
+# Now that we have preprocessed the text and created tokens, we can create a vocabulary of unique tokens and assign each token a unique integer ID. This is an essential step in preparing the data for machine learning models, as it allows us to represent text data in a numerical format.
+
+all_words = sorted(set(preprocessed))
+vocab_size = len(all_words)
+
+print(vocab_size)
+
+vocab = {token:integer for integer,token in enumerate(all_words)} 
+
+for i, item in enumerate(vocab.items()):
+    print(item)
+    if i >= 50:
+        break
