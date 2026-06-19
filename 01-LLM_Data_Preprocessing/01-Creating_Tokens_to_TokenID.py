@@ -1,6 +1,8 @@
 
 # Converting text into tokens is a crucial step in natural language processing (NLP). Tokens are the basic units of text, such as words, punctuation marks, and special characters. In this example, we will use regular expressions to split a given text into tokens while keeping punctuation as separate tokens.
 
+#Think with respect to training the llm , not the INFERENCING
+
 #Sample Logic:
 import re
 text = "Hello, world. Is this-- a test?"
