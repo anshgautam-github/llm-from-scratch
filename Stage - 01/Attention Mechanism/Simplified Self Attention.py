@@ -43,3 +43,14 @@ print("Sum:", attn_weights_2.sum())
 # In this case, we can see that it yields the same results as our previous softmax_naive function:
 
 
+# The context vector z(2)is calculated as a weighted sum of all input vectors.
+# This involves multiplying each input vector by its corresponding attention weight:
+query = inputs[1] # 2nd input token is the query
+context_vec_2 = torch.zeros(query.shape)
+for i,x_i in enumerate(inputs):
+    context_vec_2 += attn_weights_2[i]*x_i
+
+print(context_vec_2)
+
+
+# Now, we can extend this computation to calculate attention weights and context vectors for all inputs
