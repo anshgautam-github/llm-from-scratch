@@ -54,3 +54,29 @@ print(context_vec_2)
 
 
 # Now, we can extend this computation to calculate attention weights and context vectors for all inputs
+
+# First, we add an additional for-loop to compute the dot products for all pairs of inputs.
+attn_scores = torch.empty(6, 6)
+for i, x_i in enumerate(inputs):
+    for j, x_j in enumerate(inputs):
+        attn_scores[i, j] = torch.dot(x_i, x_j)
+
+print(attn_scores)
+
+# However, for-loops are generally slow, and we can achieve the same results using matrix multiplication:
+attn_scores = inputs @ inputs.T
+print(attn_scores)
+
+# We now normalize each row so that the values in each row sum to 1:
+attn_weights = torch.softmax(attn_scores, dim=-1)
+print(attn_weights)
+
+# Let's briefly verify that the rows indeed all sum to 1:
+print("All row sums:", attn_weights.sum(dim=-1))
+
+# In the third and last step, we now use these attention weights to compute all context vectors via matrix multiplication:
+all_context_vecs = attn_weights @ inputs
+print(all_context_vecs)
+
+# We can double-check that the code is correct by comparing the 2nd row with the context vector z(2) calculated previously
+print("Previous 2nd context vector:", context_vec_2)
