@@ -42,5 +42,5 @@ context_size=GPT_CONFIG_124M["context_length"]
 print("Output:", out)
 print("Output length:", len(out[0]))
 
-decoded_text = tokenizer.decode(out.squeeze(0).tolist())
+decoded_text = tokenizer.decode(out.squeeze(0).tolist()) #currently gibberish due to not training
 print(decoded_text)
