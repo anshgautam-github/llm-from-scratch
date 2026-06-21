@@ -31,7 +31,7 @@ print("Variance:\n", var)
 
 # Let's now encapsulate this process in a PyTorch module that we can use in the GPT model later:
 class LayerNorm(nn.Module):
-    def __init__(self, emb_dim):
+    def __init__(self, emb_dim): # embedding dimension is an input here
         super().__init__()
         self.eps = 1e-5
         self.scale = nn.Parameter(torch.ones(emb_dim))
