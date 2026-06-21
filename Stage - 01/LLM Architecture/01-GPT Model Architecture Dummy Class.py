@@ -1,4 +1,4 @@
-GPT_CONFIG_124M = {
+GPT_CONFIG_124M = { # GPT 2 CONFIGURATION
     "vocab_size": 50257,    # Vocabulary size
     "context_length": 1024, # Context length
     "emb_dim": 768,         # Embedding dimension
