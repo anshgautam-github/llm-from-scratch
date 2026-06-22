@@ -59,7 +59,6 @@ if total_tokens * (1-train_ratio) < GPT_CONFIG_124M["context_length"]:
           "Try to lower the `GPT_CONFIG_124M['context_length']` or "
           "decrease the `training_ratio`")
     
-
 # Next, we implement a utility function to calculate the cross-entropy loss of a given batch.
 # In addition, we implement a second utility function to compute the loss for a user-specified number of
 # batches in a data loader.
@@ -95,7 +94,7 @@ torch.manual_seed(123) # For reproducibility due to the shuffling in the data lo
 with torch.no_grad(): # Disable gradient tracking for efficiency because we are not training, yet
     train_loss = calc_loss_loader(train_loader, model, device)
     val_loss = calc_loss_loader(val_loader, model, device)
-    
+
 print("Training loss:", train_loss)
 print("Validation loss:", val_loss)
 # Training loss: 10.98758347829183
