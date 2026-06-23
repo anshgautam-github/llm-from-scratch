@@ -36,3 +36,6 @@ print_sampled_tokens(probas)
 # This means that if we replaced the argmax function with the multinomial function inside the 
 # generate_and_print_sample function, the LLM would sometimes generate texts such as "every effort moves you toward", 
 # "every effort moves you inches", and "every effort moves you closer" instead of "every effort moves you forward".
+
+# We can further control the distribution and selection process via a concept called temperature scaling, 
+# where temperature scaling is just a fancy description for dividing the logits by a number greater than 0:
