@@ -24,7 +24,6 @@ def print_sampled_tokens(probas):
         print(f"{freq} x {inverse_vocab[i]}")
 
 print_sampled_tokens(probas)
-
 # 73 x closer
 # 0 x every
 # 0 x effort
@@ -33,3 +32,7 @@ print_sampled_tokens(probas)
 # 0 x moves
 # 0 x pizza
 # 343 x toward
+
+# This means that if we replaced the argmax function with the multinomial function inside the 
+# generate_and_print_sample function, the LLM would sometimes generate texts such as "every effort moves you toward", 
+# "every effort moves you inches", and "every effort moves you closer" instead of "every effort moves you forward".
