@@ -1,4 +1,4 @@
-pip install tensorflow>=2.15.0 tqdm>=4.66
+# pip install tensorflow>=2.15.0 tqdm>=4.66
 import tensorflow as tf
 import tqdm
 print("TensorFlow version:", tf.__version__)
