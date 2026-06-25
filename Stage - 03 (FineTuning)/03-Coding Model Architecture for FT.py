@@ -66,3 +66,51 @@ print(token_ids_to_text(token_ids, tokenizer))
 
 # Based on the output, it's apparent that the model struggles with following instructions.
 # This is anticipated, as it has undergone only pretraining and lacks instruction-finetuning, which we will explore 
+
+
+# ADDING A CLASSIFICATION HEAD
+
+# To get the model ready for classification-finetuning, we first freeze the model, meaning that we make all layers non-trainable:
+for param in model.parameters():
+    param.requires_grad = False
+
+# Then, we replace the output layer (model.out_head), which originally maps the layer inputs to 50,257 dimensions (the size of the vocabulary):
+torch.manual_seed(123)
+
+num_classes = 2
+model.out_head = torch.nn.Linear(in_features=BASE_CONFIG["emb_dim"], out_features=num_classes)
+
+# Additionally, we configure the last transformer block and the final LayerNorm module, which connects this block to the output layer, to be trainable
+for param in model.trf_blocks[-1].parameters():
+    param.requires_grad = True
+
+for param in model.final_norm.parameters():
+    param.requires_grad = True
+
+# Even though we added a new output layer and marked certain layers as trainable or nontrainable, we can still use this model in a similar way to previous chapters.
+# For instance, we can feed it an example text identical to how we have done it in earlier chapters. For example, consider the following example text:
+inputs = tokenizer.encode("Do you have time")
+inputs = torch.tensor(inputs).unsqueeze(0)
+print("Inputs:", inputs)
+print("Inputs dimensions:", inputs.shape) # shape: (batch_size, num_tokens)
+# Inputs: tensor([[5211,  345,  423,  640]])
+# Inputs dimensions: torch.Size([1, 4])
+
+# Then, we can pass the encoded token IDs to the model as usual:
+with torch.no_grad():
+    outputs = model(inputs)
+
+print("Outputs:\n", outputs)
+print("Outputs dimensions:", outputs.shape) # shape: (batch_size, num_tokens, num_classes)
+# Outputs:
+#  tensor([[[-1.5854,  0.9904],
+#          [-3.7235,  7.4548],
+#          [-2.2661,  6.6049],
+#          [-3.5983,  3.9902]]])
+# Outputs dimensions: torch.Size([1, 4, 2])
+
+#To extract the last output token, from the output tensor, we use the following code:
+print("Last output token:", outputs[:, -1, :])
+# Last output token: tensor([[-3.5983,  3.9902]]
+
+# In this code, we have random initalized values because we have not trained it yet only classifier dataset.
