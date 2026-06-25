@@ -114,3 +114,4 @@ print("Last output token:", outputs[:, -1, :])
 # Last output token: tensor([[-3.5983,  3.9902]]
 
 # In this code, we have random initalized values because we have not trained it yet only classifier dataset.
+# To train the model on the data, said we need to define the loss func and implement backpropogation
