@@ -77,6 +77,27 @@ The repository is organized as a progressive, three-stage curriculum. Each stage
 - Loads pretrained GPT-2 weights as the base model and fine-tunes it to follow instructions.
 - Generates and evaluates responses on held-out instructions.
 
+**Fine-tuning architecture — one backbone, two adaptations**
+
+Both paradigms reuse the *same* pretrained GPT-2 backbone and diverge only at the head and objective:
+
+```
+                  Pretrained GPT-2 backbone
+            (token + positional emb → 12 transformer blocks → final LayerNorm)
+                              │
+              ┌───────────────┴───────────────┐
+              ▼                               ▼
+   Classification fine-tuning        Instruction fine-tuning
+   ─────────────────────────        ────────────────────────
+   • Swap LM head → Linear(768→2)   • Keep LM head (50,257 vocab)
+   • Unfreeze final block + head    • Alpaca-formatted prompts
+   • Last-token logits → class      • Padded collation + loss masking
+   • Objective: cross-entropy        • Objective: next-token cross-entropy
+              │                               │
+              ▼                               ▼
+      ham / spam prediction           instruction-following text
+```
+
 ---
 
 ## Architecture at a glance
