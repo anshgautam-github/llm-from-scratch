@@ -15,13 +15,13 @@
 
 Most people use LLMs through a one-line `from_pretrained()` call. This project does the opposite: it **rebuilds the entire stack** that sits underneath that call, so that every line — the attention math, the causal mask, the KQV projections, the weight-tying in the output head, the cross-entropy objective, the sampling loop — is implemented, tested, and understood.
 
-The end result is a 124M-parameter GPT-2 architecture that:
+The end result is a GPT-2 Small (124M) architecture (~163M total parameters) that:
 
 - is trained from random initialization on raw text,
 - can **load and run OpenAI's official GPT-2 pretrained weights** through a custom weight-mapping layer, and
 - is **fine-tuned in two distinct paradigms**: supervised text classification and instruction following.
 
-This is the difference between *using* a transformer and *being able to build one*.
+Every component — attention, normalization, the training loop, and the weight-mapping layer — is implemented directly rather than imported, making the internals fully inspectable.
 
 ---
 
