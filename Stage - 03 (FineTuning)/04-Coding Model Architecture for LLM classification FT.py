@@ -5,7 +5,7 @@ print("Last output token:", outputs[:, -1, :])
 #  Last output token: tensor([[-3.5983,  3.9902]])
 
 # We can obtain the class label via the following code:
-probas = torch.softmax(outputs[:, -1, :], dim=-1)l
+probas = torch.softmax(outputs[:, -1, :], dim=-1)
 abel = torch.argmax(probas)
 print("Class label:", label.item())
 #  Class label: 1
