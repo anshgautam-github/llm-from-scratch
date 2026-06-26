@@ -15,13 +15,15 @@
 
 Most people use LLMs through a one-line `from_pretrained()` call. This project does the opposite: it **rebuilds the entire stack** that sits underneath that call, so that every line — the attention math, the causal mask, the KQV projections, the weight-tying in the output head, the cross-entropy objective, the sampling loop — is implemented, tested, and understood.
 
-The end result is a GPT-2 Small (124M) architecture (~163M total parameters) that:
+The end result is a **GPT-2 Small** model — the configuration popularly known as **124M** — that:
 
 - is trained from random initialization on raw text,
 - can **load and run OpenAI's official GPT-2 pretrained weights** through a custom weight-mapping layer, and
 - is **fine-tuned in two distinct paradigms**: supervised text classification and instruction following.
 
 Every component — attention, normalization, the training loop, and the weight-mapping layer — is implemented directly rather than imported, making the internals fully inspectable.
+
+> **A note on the parameter count:** GPT-2 Small is canonically cited as **124M parameters** because the original model *ties* its weights — the output projection head reuses the token-embedding matrix. This implementation keeps the output head as a **separate (untied)** matrix, so it physically instantiates **~163M parameters**. Both numbers describe the same architecture; 124M is the conventional name, 163M is what this code actually allocates.
 
 ---
 
@@ -49,7 +51,7 @@ The repository is organized as a progressive, three-stage curriculum. Each stage
 - A position-wise **Feed-Forward network** with a 4× hidden expansion.
 - **Shortcut (residual) connections** with a demonstration of how they mitigate vanishing gradients.
 - A complete **Transformer block** assembling pre-LayerNorm, multi-head attention, feed-forward, dropout, and residuals.
-- The full **`GPTModel`** — token + positional embeddings, a stack of 12 transformer blocks, final norm, and a weight-tied output head — verified to instantiate **163M parameters** (~124M non-embedding, GPT-2 small configuration).
+- The full **`GPTModel`** — token + positional embeddings, a stack of 12 transformer blocks, final norm, and a weight-tied output head — verified to instantiate **~163M parameters** (the GPT-2 Small configuration, canonically called 124M under weight tying — see note below).
 
 ### Stage 02 — Pretraining and Text Generation
 
@@ -137,7 +139,7 @@ Both paradigms reuse the *same* pretrained GPT-2 backbone and diverge only at th
 | Attention heads | 12 |
 | Transformer layers | 12 |
 | Dropout | 0.1 |
-| Parameters | ~163M total |
+| Parameters | ~163M instantiated (124M with weight tying) |
 
 ---
 
