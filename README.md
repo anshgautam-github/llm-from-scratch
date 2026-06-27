@@ -15,7 +15,7 @@
 
 Most people use LLMs through a one-line `from_pretrained()` call. This project does the opposite: it **rebuilds the entire stack** that sits underneath that call, so that every line — the attention math, the causal mask, the KQV projections, the weight-tying in the output head, the cross-entropy objective, the sampling loop — is implemented, tested, and understood.
 
-The end result is a **GPT-2 Small** model — the configuration popularly known as **124M** — that:
+The end result is a **GPT-2 Small** model — the configuration popularly known as **124M** — that :
 
 - is trained from random initialization on raw text,
 - can **load and run OpenAI's official GPT-2 pretrained weights** through a custom weight-mapping layer, and
